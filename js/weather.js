@@ -57,8 +57,8 @@ function converter () {
 function getWeatherData (latitude, longitude) {
   document.getElementById("errorMsg").innerHTML = "";
   document.getElementById("errorMsg").style.visibility = "hidden";
-  var request = new XMLHttpRequest();
-  request.open("GET", "http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&APPID="+API_KEY, true);
+  var request = new XMLhttpsRequest();
+  request.open("GET", "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&APPID="+API_KEY, true);
   // Weather data like current temperature, wind, rainfall, sunrise and sunset time need to be displayed
   request.onload = function() {
     var data = JSON.parse(this.response);
@@ -162,8 +162,8 @@ function generateMap (pos) {
   streetMapContainer.appendChild(mapChild);
   // Create street map
   var streetMap = L.map("streetMap").setView([latitude, longitude], 13);
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+  L.tileLayer('httpss://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: "Map data &copy; <a href='httpss://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='httpss://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='httpss://www.mapbox.com/'>Mapbox</a>",
     maxZoom: 13,
     id: "mapbox/streets-v11",
     accessToken: "pk.eyJ1IjoiZW9ocSIsImEiOiJjazViM2NuNnIxNnFuM2ZvM2ZlMGlkNTRrIn0.rwD8ADA7qb2rckvNqlyw5w"
@@ -232,8 +232,8 @@ function processCity () {
   var form = document.forms.namedItem("getCity");
   var city = form.elements.namedItem("inputCity").value;
 
-  var request = new XMLHttpRequest();
-  request.open("GET", "http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID="+API_KEY, true);
+  var request = new XMLhttpsRequest();
+  request.open("GET", "https://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID="+API_KEY, true);
   request.onload = function() {
     var data = JSON.parse(this.response);
     if (data.coord != undefined) {
