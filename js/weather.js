@@ -57,7 +57,7 @@ function converter () {
 function getWeatherData (latitude, longitude) {
   document.getElementById("errorMsg").innerHTML = "";
   document.getElementById("errorMsg").style.visibility = "hidden";
-  var request = new XMLhttpsRequest();
+  var request = new XMLHttpRequest();
   request.open("GET", "https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&APPID="+API_KEY, true);
   // Weather data like current temperature, wind, rainfall, sunrise and sunset time need to be displayed
   request.onload = function() {
@@ -232,7 +232,7 @@ function processCity () {
   var form = document.forms.namedItem("getCity");
   var city = form.elements.namedItem("inputCity").value;
 
-  var request = new XMLhttpsRequest();
+  var request = new XMLHttpRequest();
   request.open("GET", "https://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID="+API_KEY, true);
   request.onload = function() {
     var data = JSON.parse(this.response);
