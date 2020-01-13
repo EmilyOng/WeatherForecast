@@ -1,5 +1,5 @@
 const INPUT_ERROR = "Error processing inputs!";
-const API_KEY = config.API_KEY;
+const API_KEY = "6fa15815d560d199f7eb72b39925a1b1";
 
 function setTemperatureTable () {
   var minTemperature = document.getElementById("minTemperature");
