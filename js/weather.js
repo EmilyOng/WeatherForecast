@@ -49,7 +49,6 @@ function setUpForecast (data) {
   var plotter = [temperatureTrace, minTemperatureTrace, maxTemperatureTrace, feelsLikeTrace];
   var layout = {title: "Weather Forecast (Temperature)"};
   Plotly.newPlot("plotArea", plotter, layout);
-  console.log(data);
 }
 
 function setTemperatureTable () {
