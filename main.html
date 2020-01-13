@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Weather Forecast">
+    <meta name="keywords" content="WeatherForecast,Weather,Forecast">
+    <meta name="author" content="Emily Ong">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <title>Weather Forecast</title>
+  </head>
+  <body>
+    <div id="container">
+      <center>
+        <h1><mark>Weather Forecast</mark></h1>
+        <!-- Error processing inputs -->
+        <br/>
+        <div style="visibility:hidden;" id="errorMsg" class="alert alert-danger" role="alert"></div>
+        <h2>Get weather data using...</h2><hr/>
+        <h3>Latitude and Longitude</h3>
+        <!-- Form to enter latitude and longitude -->
+        <div id="enterGeolocation">
+          <form id="getGeolocation" onsubmit="processGeolocation();return false;">
+            <input id="inputLatitude" placeholder="Latitude" required>
+            <input id="inputLongitude" placeholder="Longitude" required>
+            <input type="submit" class="btn btn-outline-info" name="submitGeolocation" value="Get Weather Data">
+          </form>
+          <br/>
+        </div>
+        <h3>Or, by city name!</h3>
+        <!-- Form to enter city -->
+        <div id="enterCity">
+          <form id="getCity" onsubmit="processCity();return false;">
+            <input type="text" id="inputCity" placeholder="City" required>
+            <input type="submit" class="btn btn-outline-info" name="submitCity" value="Get Weather Data">
+          </form>
+          <br/>
+        </div>
+        <!-- Provide latitude, longitude and altitude information -->
+        <div id="locationInformation"></div>
+        <!-- Provide weather information -->
+        <div id="weatherInformation"></div>
+        <!-- Draw the street map -->
+        <div id="streetMapContainer">
+          <div id="streetMap" style="height:180px;"></div>
+        </div>
+      </center>
+    </div>
+    <script src="js/config.js" charset="utf-8"></script>
+    <script src="js/weather.js" charset="utf-8"></script>
+  </body>
+</html>
