@@ -1,6 +1,57 @@
 const INPUT_ERROR = "Error processing inputs!";
 const API_KEY = "6fa15815d560d199f7eb72b39925a1b1";
 
+function setUpForecast (data) {
+  var weatherList = data.list;
+  var temperatureTrace = {x: [], y: [], mode: "lines+markers", name: "Temperature"};
+  var minTemperatureTrace = {x: [], y: [], mode: "lines+markers", name: "Min Temperature"};
+  var maxTemperatureTrace = {x: [], y: [], mode: "lines+markers", name: "Max Temperature"};
+  var feelsLikeTrace = {x: [], y: [], mode: "lines+markers", name: "Feels like"};
+  var infoTable = "<ul class='list-group' style='width:80%;'>\
+                    <li class='list-group-item disabled' id='forecastSunrise'></li>\
+                    <li class='list-group-item' id='forecastSunset'></li>\
+                  </ul><br/>"
+  infoTable += "<table class='table table-bordered'>"
+  infoTable += "<tr>\
+                  <th>Date & Time</th>\
+                  <th>Humidity (%)</th>\
+                  <th>Weather</th>\
+                  <th>Wind Degree (&deg;)</th>\
+                  <th>Wind Speed (km/h)</th>\
+                </tr>"
+
+
+  for (var i=0; i<weatherList.length; i++) {
+    temperatureTrace.y.push(weatherList[i].main.temp);
+    temperatureTrace.x.push(weatherList[i].dt_txt);
+
+    minTemperatureTrace.y.push(weatherList[i].main.temp_min);
+    minTemperatureTrace.x.push(weatherList[i].dt_txt);
+
+    maxTemperatureTrace.y.push(weatherList[i].main.temp_max);
+    maxTemperatureTrace.x.push(weatherList[i].dt_txt);
+
+    feelsLikeTrace.y.push(weatherList[i].main.feels_like);
+    feelsLikeTrace.x.push(weatherList[i].dt_txt);
+
+    infoTable += "<tr>\
+                    <td>"+weatherList[i].dt_txt+"</td>\
+                    <td>"+weatherList[i].main.humidity+"</td>\
+                    <td>"+weatherList[i].weather[0].main+"<br/>"+weatherList[i].weather[0].description+"</td>\
+                    <td>"+weatherList[i].wind.deg+"</td>\
+                    <td>"+weatherList[i].wind.speed+"</td>\
+                  </tr>"
+  }
+  infoTable.innerHTML += "</table>";
+  document.getElementById("infoArea").innerHTML = infoTable;
+  document.getElementById("forecastSunrise").textContent = "Sunrise: " + new Date(parseInt(data.city.sunrise) * 1000);
+  document.getElementById("forecastSunset").textContent = "Sunset: " + new Date(parseInt(data.city.sunset) * 1000);
+  var plotter = [temperatureTrace, minTemperatureTrace, maxTemperatureTrace, feelsLikeTrace];
+  var layout = {title: "Weather Forecast (Temperature)"};
+  Plotly.newPlot("plotArea", plotter, layout);
+  console.log(data);
+}
+
 function setTemperatureTable () {
   var minTemperature = document.getElementById("minTemperature");
   minTemperature.textContent = minTemperature.getAttribute("data-temp") + minTemperature.getAttribute("data-unit");
@@ -52,6 +103,7 @@ function converter () {
   }
   setTemperatureTable();
 }
+
 
 
 function getWeatherData (latitude, longitude) {
@@ -147,6 +199,13 @@ function getWeatherData (latitude, longitude) {
 
   }
   request.send();
+  var request = new XMLHttpRequest();
+  request.open("GET", "https://api.openweathermap.org/data/2.5/forecast?lat="+latitude+"&lon="+longitude+"&APPID="+API_KEY, true);
+  request.onload = function() {
+    var data = JSON.parse(this.response);
+    setUpForecast(data);
+  }
+  request.send();
 }
 
 
@@ -171,7 +230,7 @@ function generateMap (pos) {
   var marker = L.marker([latitude, longitude]).addTo(streetMap);
   // Add location information
   var locationInformation = document.getElementById("locationInformation");
-  locationInformation.innerHTML = "<table class='table table-bordered' style='width:80%;'>\
+  locationInformation.innerHTML = "<table class='table table-striped' style='width:80%;'>\
                                       <tr>\
                                         <th>Latitude</th>\
                                         <td id='latitude'></td>\
